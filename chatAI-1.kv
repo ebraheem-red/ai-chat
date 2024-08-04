@@ -1,0 +1,30 @@
+#: import Inp arabic_textinput.Inp
+<Inp>:
+    multiline: False
+    size_hint_x: 0.5
+    font_name: 'arial.ttf'
+BoxLayout:
+    orientation: 'vertical'
+
+    ScrollView:
+        Label:
+            id: chat_history
+            size_hint_y: None
+            text_size: self.width, None
+            height: self.texture_size[1]
+            markup: True
+            font_name: 'arial.ttf'  # للتأكد من دعم اللغة العربية
+
+    BoxLayout:
+        size_hint_y: None
+        height: 200
+        padding: [10, 10, 10, 10]
+        spacing: 10
+        Inp:
+            id:chat_input
+            hint_text: app.re("اكتب رسالتك هنا")  # للتأكد من دعم اللغة العربية
+        Button:
+            text: "send" 
+            size_hint_x: 0.2
+            font_name: 'arial.ttf'
+            on_press: app.send_message()
