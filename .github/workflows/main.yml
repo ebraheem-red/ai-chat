@@ -40,14 +40,18 @@ jobs:
         curl -O https://dl.google.com/android/repository/commandlinetools-linux-6609375_latest.zip
         unzip commandlinetools-linux-6609375_latest.zip -d $HOME/.buildozer/android-sdk/cmdline-tools
 
-    - name: List contents of cmdline-tools directory
-      run: |
-        ls -R $HOME/.buildozer/android-sdk/cmdline-tools
-
     - name: Move extracted files to correct location
       run: |
-        mv $HOME/.buildozer/android-sdk/cmdline-tools/*/* $HOME/.buildozer/android-sdk/cmdline-tools/tools
+        if [ ! -d "$HOME/.buildozer/android-sdk/cmdline-tools/tools/bin" ]; then
+          mv $HOME/.buildozer/android-sdk/cmdline-tools/*/* $HOME/.buildozer/android-sdk/cmdline-tools/tools
+        fi
 
     - name: Build Kivy app
       run: |
         buildozer -v android debug
+
+    - name: Upload APK
+      uses: actions/upload-artifact@v2
+      with:
+        name: android-app
+        path: bin/*.apk
