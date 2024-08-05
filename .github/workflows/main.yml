@@ -1,0 +1,48 @@
+name: Build Kivy APK
+
+on:
+  push:
+    branches:
+      - main  # يمكنك تعديل الفرع الذي تريده
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'  # استخدم إصدار بايثون المناسب
+
+    - name: Install dependencies
+      run: |
+        sudo apt update
+        sudo apt install -y python3-pip openjdk-8-jdk unzip
+        sudo pip3 install --upgrade pip
+        sudo pip3 install cython buildozer
+
+    - name: Install Android SDK & NDK
+      run: |
+        wget https://dl.google.com/android/repository/commandlinetools-linux-6609375_latest.zip
+        mkdir -p $HOME/android/cmdline-tools
+        unzip commandlinetools-linux-6609375_latest.zip -d $HOME/android/cmdline-tools
+        yes | $HOME/android/cmdline-tools/tools/bin/sdkmanager --sdk_root=$HOME/android "platform-tools" "platforms;android-29" "build-tools;29.0.3" "ndk;21.3.6528147"
+      env:
+        ANDROID_HOME: $HOME/android
+        PATH: $HOME/android/cmdline-tools/tools/bin:$HOME/android/platform-tools:$PATH
+
+    - name: Build the APK
+      run: |
+        buildozer android debug
+      env:
+        ANDROID_HOME: $HOME/android
+
+    - name: Upload APK
+      uses: actions/upload-artifact@v2
+      with:
+        name: my-app
+        path: bin/*.apk
