@@ -35,11 +35,10 @@ jobs:
     - name: Accept SDK Licenses
       run: |
         yes | $HOME/.buildozer/android-sdk/cmdline-tools/tools/bin/sdkmanager --licenses
-        $HOME/.buildozer/android-sdk/cmdline-tools/tools/bin/sdkmanager --update --include_obsolete
 
     - name: Install Build Tools
       run: |
-        $HOME/.buildozer/android-sdk/cmdline-tools/tools/bin/sdkmanager "build-tools;35.0.0" --licenses
+        $HOME/.buildozer/android-sdk/cmdline-tools/tools/bin/sdkmanager "build-tools;30.0.3" "platform-tools" "platforms;android-29"
 
     - name: Create buildozer.spec
       run: |
