@@ -27,7 +27,10 @@ jobs:
         curl -L -o commandlinetools.zip https://dl.google.com/android/repository/commandlinetools-linux-6609375_latest.zip
         unzip commandlinetools.zip -d $HOME/.buildozer/android-sdk/cmdline-tools
         mkdir -p $HOME/.buildozer/android-sdk/cmdline-tools/tools
-        mv $HOME/.buildozer/android-sdk/cmdline-tools/cmdline-tools/* $HOME/.buildozer/android-sdk/cmdline-tools/tools/
+
+    - name: Move SDK files
+      run: |
+        mv $HOME/.buildozer/android-sdk/cmdline-tools/cmdline-tools/* $HOME/.buildozer/android-sdk/cmdline-tools/tools || echo "No files to move"
 
     - name: Accept SDK Licenses
       run: |
@@ -53,3 +56,9 @@ jobs:
 
     - name: Build APK
       run: buildozer -v android debug
+
+    - name: Upload APK
+      uses: actions/upload-artifact@v2
+      with:
+        name: chat-ai-apk
+        path: .buildozer/android/platform/build/dists/chat-ai/build/outputs/apk/debug/*.apk
