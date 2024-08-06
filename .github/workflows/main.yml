@@ -17,6 +17,8 @@ jobs:
 
     - name: Install dependencies
       run: |
+        sudo apt-get update
+        sudo apt-get install build-essential libstdc++6 -y
         python -m pip install --upgrade pip
         pip install setuptools cython virtualenv
         pip install buildozer
@@ -38,7 +40,12 @@ jobs:
 
     - name: Install Build Tools
       run: |
-        $HOME/.buildozer/android-sdk/cmdline-tools/tools/bin/sdkmanager "build-tools;30.0.3" "platform-tools" "platforms;android-29"
+        $HOME/.buildozer/android-sdk/cmdline-tools/tools/bin/sdkmanager --install "build-tools;30.0.3" "platform-tools" "platforms;android-29"
+
+    - name: Copy build-tools to correct directory
+      run: |
+        mkdir -p $HOME/.buildozer/android-sdk/cmdline-tools/cmdline-tools
+        cp -r $HOME/.buildozer/android-sdk/build-tools $HOME/.buildozer/android-sdk/cmdline-tools/cmdline-tools/
 
     - name: Create buildozer.spec
       run: |
