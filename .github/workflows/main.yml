@@ -37,6 +37,10 @@ jobs:
         yes | $HOME/.buildozer/android-sdk/cmdline-tools/tools/bin/sdkmanager --licenses
         $HOME/.buildozer/android-sdk/cmdline-tools/tools/bin/sdkmanager --update
 
+    - name: Install Build Tools
+      run: |
+        $HOME/.buildozer/android-sdk/cmdline-tools/tools/bin/sdkmanager "build-tools;35.0.0" --licenses
+
     - name: Create buildozer.spec
       run: |
         echo "[app]" > buildozer.spec
