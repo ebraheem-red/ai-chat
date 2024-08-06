@@ -30,7 +30,7 @@ jobs:
 
     - name: Move SDK files
       run: |
-        mv $HOME/.buildozer/android-sdk/cmdline-tools/cmdline-tools/* $HOME/.buildozer/android-sdk/cmdline-tools/tools || echo "No files to move"
+        mv $HOME/.buildozer/android-sdk/cmdline-tools/*/* $HOME/.buildozer/android-sdk/cmdline-tools/tools || echo "No files to move"
 
     - name: Accept SDK Licenses
       run: |
@@ -43,6 +43,7 @@ jobs:
         echo "title = My Application" >> buildozer.spec
         echo "package.name = chat-ai" >> buildozer.spec
         echo "package.domain = org.myapp" >> buildozer.spec
+        echo "source.dir = ." >> buildozer.spec
         echo "source.include_exts = py,png,jpg,kv,atlas" >> buildozer.spec
         echo "version = 1.0" >> buildozer.spec
         echo "requirements = python3, kivy, google-generativeai, arabic-reshape, bidi" >> buildozer.spec
@@ -50,9 +51,9 @@ jobs:
         echo "android.ndk = 19b" >> buildozer.spec
         echo "android.api = 29" >> buildozer.spec
         echo "android.minapi = 21" >> buildozer.spec
-        echo "source.include_assets = assets" >> buildozer.spec
         echo "source.main = main.py" >> buildozer.spec
         echo "android.sign = False" >> buildozer.spec
+        echo "source.include_assets = assets" >> buildozer.spec
 
     - name: Build APK
       run: buildozer -v android debug
