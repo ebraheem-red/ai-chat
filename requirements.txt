@@ -1,1 +1,3 @@
-google.generativeai,pandas,kivy
+google.generativea
+pandas
+kivy
